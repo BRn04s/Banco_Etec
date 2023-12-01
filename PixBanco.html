@@ -1,0 +1,89 @@
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco Etec</title>
+</head>
+
+<body>
+  <h1>Banco da Etec - Transferencia Pix.</h1>
+  <p>Valor da Transferência: <span id="pix" </span></span></p>
+  <p>Antes da Transferência: <span id="contaAntes" </span></p>
+  <p>Depois da Transferência: <span id="contaDepois" </span> </p>
+  <script>
+    let cpf = [];
+    let nome = [];
+    let saldo = [];
+    let n = 0;
+
+
+    let inicio = Number(prompt("Olá, seja bem-vindo(a) ao Banco Etec. Escolha uma das operações a seguir: \n 1 - Cadastrar conta \n 2 - Fazer o Pix \n 3 - Sair"));
+    while (inicio == 1 || inicio == 2) {
+
+      switch (inicio) {
+        case 1:
+          let cpf1 = Number(prompt("Digite o número de CPF (número da conta.)"));
+          let nome1 = prompt("Digite o nome do titular da conta.");
+          let saldo1 = Number(prompt("Digite o saldo da conta."));
+
+          cadastrarConta(cpf1, nome1, saldo1);
+
+          break;
+        case 2:
+
+          let cpfA = Number(prompt("Digite o CPF de origem."));
+          let cpfB = Number(prompt("Digite o CPF de destino."));
+          let valor = Number(prompt("Valor da transferência:"));
+          fazerPix(cpfA, valor, cpfB);
+
+          break;
+        case 3:
+          alert("3");
+          break;
+          default:
+          break;
+      }
+      
+      inicio = Number(prompt("Escolha a operação: \n 1 - Cadastrar conta \n 2 - Fazer o Pix \n 3 - Sair"));
+    }
+
+    function cadastrarConta(cpf1, nome1, saldo1) {
+      n++;
+      cpf[n] = cpf1;
+      nome[n] = nome1;
+      saldo[n] = saldo1;
+
+      alert("Cpf:" + cpf[n] + " Cliente: " + nome[n] + " Saldo: " + saldo[n]);
+    }
+
+    function fazerPix(cpfA, valor, cpfB) {
+      let indexA = cpf.indexOf(cpfA);
+
+      if (indexA !== -1 && saldo[indexA] >= valor) {
+        let indexB = cpf.indexOf(cpfB);
+        if (indexB !== -1) {
+          let saldoAntesA = saldo[indexA];
+          let saldoAntesB = saldo[indexB];
+
+          saldo[indexA] -= valor;
+          saldo[indexB] += valor;
+
+          document.getElementById("pix").innerHTML = ("R$ " + valor);
+          
+          document.getElementById("contaAntes").innerHTML = ("<br/>" + "Conta de origem - CPF: " + cpfA + " Cliente: " + nome[indexA] + " Saldo: R$ " + saldoAntesA + "<br/>" + "Conta de destino - CPF: " + cpfB + " Cliente: " + nome[indexB] + " Saldo: R$ " + saldoAntesB);
+
+          document.getElementById("contaDepois").innerHTML = ("<br/>" + "Conta de origem - CPF: " + cpfA + " Cliente: " + nome[indexA] + " Saldo: R$ " + saldo[indexA] + "<br/>" + "Conta de destino - CPF:" + cpfB + " Cliente: " + nome[indexB] + " Saldo: R$ " + saldo[indexB]);
+        } else {
+          alert("Conta de destino não encontrada.");
+        }
+      } else {
+        alert("Saldo insuficiente ou conta de origem não encontrada.");
+      }
+
+
+    }
+  </script>
+</body>
+
+</html>
